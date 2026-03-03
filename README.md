@@ -1,10 +1,10 @@
-# ⚙️ Backend Engineering PoCs & Labs
+# Backend Engineering PoCs & Labs
 
 Este repositório contém uma série de laboratórios e provas de conceito (PoCs) desenvolvidos em Python. O objetivo é explorar conceitos de baixo nível, otimização de CPU/Memória, Big O Notation e estruturas de dados aplicadas a problemas reais de arquitetura de software e engenharia de backend.
 
 ---
 
-## 🗂️ Índice de Laboratórios (Provas de Conceito)
+## Índice de Laboratórios (Provas de Conceito)
 
 Aqui estão os experimentos isolados, documentando o problema de negócio, a hipótese técnica e a prova matemática de performance:
 
@@ -20,6 +20,6 @@ Aqui estão os experimentos isolados, documentando o problema de negócio, a hip
 
 ---
 
-## 🛠️ Stack Analítico
+## Stack Analítico
 * **Linguagem Base:** Python 3 (Foco no motor CPython)
 * **Princípios Aplicados:** Separation of Concerns (SoC), Single Responsibility Principle (SRP), Observabilidade e Gerenciamento de Risco.
