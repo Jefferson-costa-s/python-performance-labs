@@ -1,10 +1,21 @@
-Middleware de Auditoria de Segurança (Meta-programação)
-Assignee: Jefferson
-Priority: P1 (Crítico / Compliance)
-🔬 Under the Hood: First-Class Functions (Ponteiros de Função)
+# PoC: Security Audit Middleware (Meta-programming)
 
-Para entender Decorators, você precisa esquecer a ideia de que uma "função" é apenas um bloco mágico de código que roda. No interpretador CPython, uma função é um objeto, alocado na memória Heap, exatamente como uma lista, um dicionário ou uma string.
+## Problema de Negócio
+O time de Segurança da Informação exigiu a implementação de logs de auditoria para todas as funções críticas do sistema (ex: processamento de pagamentos, deleção de usuários). 
 
-Quando você digita def processar_pagamento():, o Python compila o seu código para bytecode, aloca esse bloco de instruções na memória e cria uma variável chamada processar_pagamento (na Stack) que funciona como um ponteiro para aquele endereço no Heap.
+Alterar dezenas de rotas manualmente violaria o princípio **DRY** (*Don't Repeat Yourself*) e aumentaria o risco de inserção de *bugs* na lógica financeira (regra de negócio).
 
-Em C (a linguagem do CS50), chamamos isso de Function Pointers. Como funções são apenas ponteiros para endereços de memória, você pode pegar a função A, passar o endereço dela como argumento para a função B, e pedir para a função B executá-la. Esse é o padrão de projeto conhecido como Wrapper (Embrulho). O Decorator do Python (o @) é apenas um syntax sugar (um atalho visual) para esse padrão de injeção de dependência.
+## A Solução de Engenharia (Meta-programação)
+A arquitetura escolhida foi a injeção de dependência via **Decorators** (`@`). No CPython, funções são cidadãos de primeira classe (*First-Class Objects*) alocadas no *Heap*. Isso nos permite passar ponteiros de função como argumentos para outras funções.
+
+Foi construído um **Wrapper** (Higher-Order Function) que:
+1. Intercepta a chamada da função original.
+2. Extrai os argumentos dinamicamente utilizando `*args` e `**kwargs` (garantindo compatibilidade com qualquer assinatura de função).
+3. Utiliza a biblioteca nativa `logging` para registrar a telemetria (I/O assíncrono e thread-safe).
+4. Restaura os metadados da função original para as ferramentas de *debug* utilizando `functools.wraps`.
+5. Libera o ponteiro para execução da lógica de negócio intocada.
+
+## 🛠️ Stack e Padrões Aplicados
+- **Linguagem:** Python 3
+- **Conceitos:** Decorators, Closures, Padrão de Projeto *Wrapper*, *Separation of Concerns* (SoC).
+- **Módulos:** `logging`, `functools`.
